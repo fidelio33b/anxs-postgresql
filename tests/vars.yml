@@ -45,11 +45,10 @@ postgresql_ext_install_extra_packages: yes
 
 postgresql_ext_extra_packages:
   names:
-    - emacs-nox
-    - nano
+    - asgard
   apt_repositories:
-    depot-cs:
-      repo: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
+    depot-cs-rie: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
+    depot-cs-test: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
   apt_keys:
     debian-depot-rie:
       id: "CC9CACA5"
