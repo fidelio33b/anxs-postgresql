@@ -39,6 +39,7 @@ postgresql_database_owner: "{{ postgresql_admin_user }}"
 postgresql_ext_install_contrib: no
 postgresql_ext_install_dev_headers: no
 postgresql_ext_install_postgis: no
+postgresql_ext_install_extra_packages: no
 
 # PostGIS
 postgresql_postgis_release_compatibility:
@@ -860,3 +861,5 @@ postgresql_apt_py2_dependencies: ["python-psycopg2", "python-pycurl", "locales"]
 postgresql_apt_dependencies: "{{ postgresql_apt_py3_dependencies if 'python3' in ansible_python_interpreter|default('') else postgresql_apt_py2_dependencies }}"
 
 postgresql_hide_passwords: false
+
+postgresql_ext_extra_packages: []

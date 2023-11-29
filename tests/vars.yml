@@ -40,3 +40,17 @@ postgresql_database_schemas:
     state: present
     schema: acme
     owner: baz
+
+postgresql_ext_install_extra_packages: yes
+
+postgresql_ext_extra_packages:
+  names:
+    - emacs-nox
+    - nano
+  apt_repositories:
+    depot-cs:
+      repo: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
+  apt_keys:
+    debian-depot-rie:
+      id: "CC9CACA5"
+      url: "http://debian.depot.e2.rie.gouv.fr/keys/debian-archive-keyring/236BB7D85E32FCD00ED50F847D82EE6CCC9CACA5.asc"
