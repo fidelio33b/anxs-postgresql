@@ -8,12 +8,6 @@
     keyring: /etc/apt/trusted.gpg.d/CC9CACA5.gpg
   when: ansible_os_family == "Debian"
 
-#- name: PostgreSQL | Extensions | Add repos | apt
-#  apt_repository:
-#    repo: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
-#    state: present
-#  when: ansible_os_family == "Debian"
-
 - name: PostgreSQL | Extensions | Add packages | Debug
   debug:
     msg: "{{ postgresql_ext_extra_packages }}"
@@ -23,6 +17,7 @@
     repo: "{{ item.value }}"
     state: present
   loop: "{{ postgresql_ext_extra_packages.apt_repositories | dict2items }}"
+  when: ansible_os_family == "Debian"
 
 - name: PostgreSQL | Extensions | Add packages | Debian
   apt:
