@@ -1,17 +1,25 @@
 # file: postgresql/tasks/extensions/extra_packages.yml
 
-- name: PostgreSQL | Extensions | Add repo keys | apt
-  apt_key:
-    id: "CC9CACA5"
-    url: "http://debian.depot.e2.rie.gouv.fr/keys/debian-archive-keyring/236BB7D85E32FCD00ED50F847D82EE6CCC9CACA5.asc"
-    state: present
-    keyring: /etc/apt/trusted.gpg.d/CC9CACA5.gpg
-  when: ansible_os_family == "Debian"
-
 - name: PostgreSQL | Extensions | Add packages | Debug
   debug:
     msg: "{{ postgresql_ext_extra_packages }}"
 
+- name: PostgreSQL | Extensions | Add repo keys | Debug
+  debug:
+    msg: "{{ item.value.id }} ({{ item.value.url }})"
+  loop: "{{ postgresql_ext_extra_packages.apt_keys | dict2items }}"
+
+# keys
+- name: PostgreSQL | Extensions | Add repo keys | apt
+  apt_key:
+    id: "{{ item.value.id }}"
+    url: "{{ item.value.url }}"
+    state: present
+    keyring: /etc/apt/trusted.gpg.d/{{ item.value.id }}.gpg
+  loop: "{{ postgresql_ext_extra_packages.apt_keys | dict2items }}"
+  when: ansible_os_family == "Debian"
+
+# repositories
 - name: PostgreSQL | Extensions | Add repos | apt
   apt_repository:
     repo: "{{ item.value }}"
@@ -19,7 +27,8 @@
   loop: "{{ postgresql_ext_extra_packages.apt_repositories | dict2items }}"
   when: ansible_os_family == "Debian"
 
-- name: PostgreSQL | Extensions | Add packages | Debian
+# packages
+- name: PostgreSQL | Extensions | Add packages | apt
   apt:
     name: "{{ postgresql_ext_extra_packages.names }}"
     state: present

@@ -46,10 +46,20 @@ postgresql_ext_install_extra_packages: yes
 postgresql_ext_extra_packages:
   names:
     - asgard
+    - plume-pg
+    #- emacs-nox
+    - fish
   apt_repositories:
     depot-cs-rie: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
-    depot-cs-test: "deb http://debian.depot.e2.rie.gouv.fr/depot-cs/ {{ ansible_distribution_release }} main"
+    #depot-signal: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/D980A17457F6FB06.gpg] https://updates.signal.org/desktop/apt {{ ansible_distribution_release }} main"
+    depot-fish: "deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /"
   apt_keys:
-    debian-depot-rie:
+    depot-cs-rie:
       id: "CC9CACA5"
       url: "http://debian.depot.e2.rie.gouv.fr/keys/debian-archive-keyring/236BB7D85E32FCD00ED50F847D82EE6CCC9CACA5.asc"
+    #depot-signal:
+    #  id: "D980A17457F6FB06"
+    #  url: "https://updates.signal.org/desktop/apt/keys.asc"
+    depot-fish:
+      id: "D880C8E4"
+      url: "https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key"
