@@ -25,9 +25,16 @@ apt install -y gpg
 #sudo -i -u vagrant bash -c "pip3 install -U ansible"
 SCRIPTJAMMY
 
+$scriptrockylinux = <<-SCRIPTROCKYLINUX
+dnf update
+dnf install -y emacs-nox python3-pip
+sudo -i -u vagrant bash -c "python -m venv ~/venv-ansible"
+sudo -i -u vagrant bash -c "pip install -U pip"
+sudo -i -u vagrant bash -c "pip install -U ansible"
+SCRIPTROCKYLINUX
+
 Vagrant.configure('2') do |config|
 
-  #ENV['LC_ALL']="C.UTF-8"
   ENV['LC_ALL']="en_US.UTF-8"
   ENV['LC_LCTYPE']="en_US.UTF-8"
 
@@ -47,31 +54,31 @@ Vagrant.configure('2') do |config|
   # \__\___|_||_\__\___/__//_/  
   #                             
 
-  config.vm.define 'centos7.local' do |machine|
+#  config.vm.define 'centos7.local' do |machine|
 
-    machine.vm.box = "centos/7"
-    machine.vm.network :private_network, ip: '192.168.88.24'
-    machine.vm.hostname = 'centos7.local'
+#    machine.vm.box = "centos/7"
+#    machine.vm.network :private_network, ip: '192.168.88.24'
+#    machine.vm.hostname = 'centos7.local'
 
-    machine.vm.provision 'file' do |file|
-      file.source = "~/.vagrant.d/insecure_private_key"
-      file.destination = "~/.vagrant.d/insecure_private_key"
-    end
+#    machine.vm.provision 'file' do |file|
+#      file.source = "~/.vagrant.d/insecure_private_key"
+#      file.destination = "~/.vagrant.d/insecure_private_key"
+#    end
     
-    machine.vm.provision 'shell' do |shell|
-      shell.inline = "echo toto"
-      #shell.inline = $scriptbullseye
-    end
+#    machine.vm.provision 'shell' do |shell|
+#      shell.inline = "echo toto"
+#      #shell.inline = $scriptbullseye
+#    end
 
-    machine.vm.provision 'ansible' do |ansible|
-      ansible.playbook = 'tests/playbook.yml'
-      #ansible.verbose = "vvv"
-      ansible.become = true
-      ansible.inventory_path = 'vagrant-inventory'
-      ansible.host_key_checking = false
-    end
+#    machine.vm.provision 'ansible' do |ansible|
+#      ansible.playbook = 'tests/playbook.yml'
+#      #ansible.verbose = "vvv"
+#      ansible.become = true
+#      ansible.inventory_path = 'vagrant-inventory'
+#      ansible.host_key_checking = false
+#    end
 
-  end
+#  end
 
   #  _         _ _                  
   # | |__ _  _| | |___ ___ _  _ ___ 
@@ -79,31 +86,31 @@ Vagrant.configure('2') do |config|
   # |_.__/\_,_|_|_/__/\___|\_, \___|
   #                        |__/     
   
-  config.vm.define 'bullseye64.local' do |machine|
+#  config.vm.define 'bullseye64.local' do |machine|
 
-    machine.vm.box = "debian/bullseye64"
-    machine.vm.network :private_network, ip: '192.168.88.23'
-    machine.vm.hostname = 'bullseye64.local'
+#    machine.vm.box = "debian/bullseye64"
+#    machine.vm.network :private_network, ip: '192.168.88.23'
+#    machine.vm.hostname = 'bullseye64.local'
 
-    machine.vm.provision 'file' do |file|
-      file.source = "~/.vagrant.d/insecure_private_key"
-      file.destination = "~/.vagrant.d/insecure_private_key"
-    end
+#    machine.vm.provision 'file' do |file|
+#      file.source = "~/.vagrant.d/insecure_private_key"
+#      file.destination = "~/.vagrant.d/insecure_private_key"
+#    end
     
-    machine.vm.provision 'shell' do |shell|
-      shell.inline = "echo toto"
-      #shell.inline = $scriptbullseye
-    end
+#    machine.vm.provision 'shell' do |shell|
+#      shell.inline = "echo toto"
+#      #shell.inline = $scriptbullseye
+#    end
 
-    machine.vm.provision 'ansible' do |ansible|
-      ansible.playbook = 'tests/playbook.yml'
-      #ansible.verbose = "vvv"
-      ansible.become = true
-      ansible.inventory_path = 'vagrant-inventory'
-      ansible.host_key_checking = false
-    end
+#    machine.vm.provision 'ansible' do |ansible|
+#      ansible.playbook = 'tests/playbook.yml'
+#      #ansible.verbose = "vvv"
+#      ansible.become = true
+#      ansible.inventory_path = 'vagrant-inventory'
+#      ansible.host_key_checking = false
+#    end
 
- end
+# end
 
   #    _                      
   #   (_)__ _ _ __  _ __ _  _ 
@@ -111,30 +118,62 @@ Vagrant.configure('2') do |config|
   #  _/ \__,_|_|_|_|_|_|_\_, |
   # |__/                 |__/ 
 
-#  config.vm.define 'jammy64.local' do |machine|
-#
-#    machine.vm.box = "ubuntu/jammy64"
-#    machine.vm.network :private_network, ip: '192.168.88.22'
-#    machine.vm.hostname = 'jammy64.local'
-#
-#    machine.vm.provision 'file' do |file|
-#      file.source = "~/.vagrant.d/insecure_private_key"
-#      file.destination = "~/.vagrant.d/insecure_private_key"
-#    end
+  # config.vm.define 'jammy64.local' do |machine|
+
+  #   machine.vm.box = "ubuntu/jammy64"
+  #   machine.vm.network :private_network, ip: '192.168.88.22'
+  #   machine.vm.hostname = 'jammy64.local'
+
+  #   machine.vm.provision 'file' do |file|
+  #     file.source = "~/.vagrant.d/insecure_private_key"
+  #     file.destination = "~/.vagrant.d/insecure_private_key"
+  #   end
     
-#    machine.vm.provision 'shell' do |shell|
-#      #shell.inline = "echo toto"
-#      shell.inline = $scriptjammy
-#    end
+  #   machine.vm.provision 'shell' do |shell|
+  #     shell.inline = "echo toto"
+  #     #shell.inline = $scriptjammy
+  #   end
 
-#    machine.vm.provision 'ansible' do |ansible|
-#      ansible.playbook = 'tests/playbook.yml'
-#      ansible.verbose = "vvv"
-#      ansible.become = true
-#      ansible.inventory_path = 'vagrant-inventory'
-#      ansible.host_key_checking = false
-#    end
+  #   machine.vm.provision 'ansible' do |ansible|
+  #     ansible.playbook = 'tests/playbook.yml'
+  #     #ansible.verbose = "vvv"
+  #     ansible.become = true
+  #     ansible.inventory_path = 'vagrant-inventory'
+  #     ansible.host_key_checking = false
+  #   end
 
-#  end
+  # end
+
+#              _        _ _              
+#  _ _ ___  __| |___  _| (_)_ _ _  ___ __
+# | '_/ _ \/ _| / / || | | | ' \ || \ \ /
+# |_| \___/\__|_\_\\_, |_|_|_||_\_,_/_\_\
+#                  |__/                  
+
+ config.vm.define 'rockylinux9.local' do |machine|
+
+   machine.vm.box = "rockylinux/9"
+   machine.vm.network :private_network, ip: '192.168.88.25'
+   machine.vm.hostname = 'rockylinux9.local'
+
+   machine.vm.provision 'file' do |file|
+     file.source = "~/.vagrant.d/insecure_private_key"
+     file.destination = "~/.vagrant.d/insecure_private_key"
+   end
+    
+   machine.vm.provision 'shell' do |shell|
+     #shell.inline = "echo toto"
+     shell.inline = $scriptrockylinux
+   end
+
+    machine.vm.provision 'ansible' do |ansible|
+      ansible.playbook = 'tests/playbook.yml'
+      ansible.verbose = "vvv"
+      ansible.become = true
+      ansible.inventory_path = 'vagrant-inventory'
+      ansible.host_key_checking = false
+    end
+
+ end
 
 end
