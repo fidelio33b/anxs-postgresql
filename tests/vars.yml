@@ -3,6 +3,8 @@
 #--- will be set by molecule
 #postgresql_version: "{{ postgresql_version | default('13') }}"
 
+postgresql_version: 14
+
 postgresql_port: 5432
 
 postgresql_databases:
