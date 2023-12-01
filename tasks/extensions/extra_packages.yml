@@ -1,14 +1,5 @@
 # file: postgresql/tasks/extensions/extra_packages.yml
 
-- name: PostgreSQL | Extensions | Add packages | Debug
-  debug:
-    msg: "{{ postgresql_ext_extra_packages }}"
-
-- name: PostgreSQL | Extensions | Add repo keys | Debug
-  debug:
-    msg: "{{ item.value.id }} ({{ item.value.url }})"
-  loop: "{{ postgresql_ext_extra_packages.apt_keys | dict2items }}"
-
 # keys
 - name: PostgreSQL | Extensions | Add repo keys | apt
   apt_key:
@@ -16,7 +7,7 @@
     url: "{{ item.value.url }}"
     state: present
     keyring: /etc/apt/trusted.gpg.d/{{ item.value.id }}.gpg
-  loop: "{{ postgresql_ext_extra_packages.apt_keys | dict2items }}"
+  loop: "{{ postgresql_ext_extra_packages.apt_keys | default({}) | dict2items  }}"
   when: ansible_os_family == "Debian"
 
 # repositories
@@ -24,7 +15,7 @@
   apt_repository:
     repo: "{{ item.value }}"
     state: present
-  loop: "{{ postgresql_ext_extra_packages.apt_repositories | dict2items }}"
+  loop: "{{ postgresql_ext_extra_packages.apt_repositories | default({}) | dict2items }}"
   when: ansible_os_family == "Debian"
 - name: PostgreSQL | Extensions | Add repos | RHEL
   yum_repository:
@@ -33,7 +24,7 @@
     baseurl: "{{ item.value.url }}"
     gpgkey: "{{ item.value.gpgkey }}"
     enabled: yes
-  loop: "{{ postgresql_ext_extra_packages.yum_repositories | dict2items }}"
+  loop: "{{ postgresql_ext_extra_packages.yum_repositories | default({}) | dict2items }}"
   when: ansible_os_family == "RedHat"
 
 # packages
