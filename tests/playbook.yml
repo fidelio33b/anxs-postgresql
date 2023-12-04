@@ -7,4 +7,7 @@
     - ./vars.{{ ansible_distribution }}.{{ ansible_distribution_major_version }}.yml
   roles:
     - postgresql
- 
+  environment:
+    http_proxy: "http://pfrie-std.proxy.e2.rie.gouv.fr:8080"
+    https_proxy: "http://pfrie-std.proxy.e2.rie.gouv.fr:8080"
+    no_proxy: "localhost,127.0.0.0/8,::1,.e2.rie.gouv.fr,.ac.cs,.edcs.fr"

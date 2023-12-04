@@ -11,6 +11,10 @@
   vars_files:
     - ./vars.yml
     - ./vars.{{ ansible_distribution }}.{{ ansible_distribution_major_version }}.yml
+  environment:
+    http_proxy: "http://pfrie-std.proxy.e2.rie.gouv.fr:8080"
+    https_proxy: "http://pfrie-std.proxy.e2.rie.gouv.fr:8080"
+    no_proxy: "localhost,127.0.0.0/8,::1,.e2.rie.gouv.fr,.ac.cs,.edcs.fr"
   tasks:
     - name: Pick the right sudoers group (wheel or sudo) depending on the distro
       set_fact:
@@ -52,14 +56,14 @@
     #---------------------
     # RHEL based distros
     #---------------------
-    - name: Install prerequisite packages for molecule testing for RHEL 8
+    - name: Install prerequisite packages for molecule testing for RHEL 8 & 9
       package:
         name:
           - langpacks-en
           - glibc-all-langpacks
       when:
         - "ansible_os_family  == 'RedHat'"
-        - "ansible_distribution_major_version == '8'"
+        - (ansible_distribution_major_version | int) >= 8
 
     #---------------------
     # Fedora based distros
