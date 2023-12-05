@@ -1,5 +1,5 @@
 ---
-# This file defines (optional) repos and packages
+# This file defines (optional) repos and packages - uncomment necessary lines
 
 # postgresql_ext_extra_packages:
 #   names:
